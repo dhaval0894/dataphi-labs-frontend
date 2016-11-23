@@ -18,12 +18,12 @@ const Patient = (props) => {
 }
 
 Patient.propTypes = {
-  first_name: PropTypes.string.isRequired,
-  last_name: PropTypes.string.isRequired,
-  age: PropTypes.number.isRequired,
-  dob: PropTypes.string.isRequired,
-  mobile: PropTypes.string.isRequired,
-  other_info: PropTypes.string.isRequired
+  first_name: PropTypes.string,
+  last_name: PropTypes.string,
+  age: PropTypes.number,
+  dob: PropTypes.string,
+  mobile: PropTypes.string,
+  other_info: PropTypes.string
 };
 
 export default Patient;
