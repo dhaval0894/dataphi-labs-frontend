@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PatientTable from './PatientTable';
+import SearchForm from './SearchForm';
 import $ from 'jquery';
 
 class PatientsPage extends Component {
@@ -8,6 +9,7 @@ class PatientsPage extends Component {
     this.state = {
       patients: []
     };
+    this.handleSearch = this.handleSearch.bind(this);
   }
 
   componentDidMount() {
@@ -28,15 +30,26 @@ class PatientsPage extends Component {
     });
   }
 
+  handleSearch(patients) {
+    this.setState({ patients: patients});
+  }
+
   render() {
     return (
       <div>
 
         <header className="jumbotron">
-            <h4 className="text-center">List Of Patients</h4>
+          <h4 className="text-center">List Of Patients</h4>
         </header>
 
+        <div className="row search-panel">
+          <div className="col-md-3">
+            <SearchForm handleSearch={this.handleSearch}/>
+          </div>
+        </div>
+
         <PatientTable patients={this.state.patients} />
+
       </div>
     );
   }
