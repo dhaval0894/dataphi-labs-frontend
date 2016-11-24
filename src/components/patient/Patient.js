@@ -22,6 +22,7 @@ Patient.propTypes = {
   last_name: PropTypes.string,
   age: PropTypes.number,
   dob: PropTypes.string,
+  gender: PropTypes.string,
   mobile: PropTypes.string,
   other_info: PropTypes.string
 };

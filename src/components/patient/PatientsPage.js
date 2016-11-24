@@ -30,6 +30,12 @@ class PatientsPage extends Component {
     });
   }
 
+  // handleAdd(patient) {
+  //   let patients = this.state.patients;
+  //   patients.push(patient);
+  //   this.setState({ patients: patients });
+  // }
+
   handleSearch(patients) {
     this.setState({ patients: patients});
   }
