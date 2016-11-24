@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import $ from 'jquery';
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router';
 
 class NewPatientPage extends Component {
   constructor(props) {
@@ -15,10 +15,9 @@ class NewPatientPage extends Component {
       other_info: ''
     };
 
+    this.calculateAge = this.calculateAge.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.checkRoute = this.checkRoute.bind(this);
-    this.calculateAge = this.calculateAge.bind(this);
   }
 
   calculateAge() {
@@ -28,10 +27,6 @@ class NewPatientPage extends Component {
         console.log(age);
         this.setState({ age: age });
     }
-  }
-
-  checkRoute() {
-    browserHistory.push('/patients');
   }
 
   handleChange(event) {
@@ -60,7 +55,7 @@ class NewPatientPage extends Component {
       });
     }
     else {
-      alert('Please fill all the fields');
+      alert('Please Fill All The Fields');
     }
   }
 
@@ -172,9 +167,6 @@ class NewPatientPage extends Component {
 
               </fieldset>
             </form>
-            <div className="text-right col-lg-6">
-              <button className="btn btn-sm btn-danger" onClick={this.checkRoute}>cancel</button>
-            </div>
           </div>
         </div>
     </div>
