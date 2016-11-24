@@ -20,7 +20,7 @@ class PatientsPage extends Component {
     let self = this;
 
     $.ajax({
-      url: 'http://localhost:8000/api/patients',
+      url: 'http://api.dhavalpurohit.com/api/patients',
       success: function(data) {
         self.setState({ patients: data });
       },

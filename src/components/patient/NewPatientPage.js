@@ -42,7 +42,7 @@ class NewPatientPage extends Component {
 
     if (self.validForm()) {
       $.ajax({
-        url: 'http://localhost:8000/api/patients',
+        url: 'http://api.dhavalpurohit.com/api/patients',
         method: 'POST',
         data: { patient: self.state },
         success: (data) => {

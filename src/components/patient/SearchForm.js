@@ -13,7 +13,7 @@ class SearchForm extends Component {
     console.log(query);
 
     $.ajax({
-      url: 'http://localhost:8000/api/patients/search',
+      url: 'http://api.dhavalpurohit.com/api/patients/search',
       data: { query: query},
       success: (data) => {
         self.props.handleSearch(data);
