@@ -107,7 +107,7 @@ class NewPatientPage extends Component {
                       value={this.state.dob}
                       onChange={this.handleChange}
                       onBlur={this.calculateAge}
-                      validations={['required', 'checkDate']} />
+                      validations={['required']} />
                   </div>
                 </div>
 
@@ -200,7 +200,7 @@ Object.assign(Validation.rules, {
       },
 
       hint: value => {
-          return <span className='form-error is-visible'>Field should contain only letters(A-Z,a-z)</span>
+          return <span className='form-error is-visible'>Field should contain only alphabets(A-Z,a-z)</span>
       }
     },
 
@@ -222,18 +222,7 @@ Object.assign(Validation.rules, {
       },
 
       hint: value => {
-          return <span className='form-error is-visible'>Field should contain only 10 digits</span>
-      }
-    },
-
-    checkDate: {
-      rule: value => {
-            console.log(value);
-            return moment(value).isValid();
-      },
-
-      hint: value => {
-          return <span className='form-error is-visible'>Field should contain valid date</span>
+          return <span className='form-error is-visible'>Field should contain exactly 10 digits</span>
       }
     }
 
