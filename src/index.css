@@ -14,3 +14,8 @@ a.navbar-brand {
 .search-panel {
   margin-bottom: 10px;
 }
+
+.form-error {
+  color: #e74c3c;
+  font-size: 12px;
+}

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import $ from 'jquery';
 import { browserHistory } from 'react-router';
+import Validation from 'react-validation';
 
 class NewPatientPage extends Component {
   constructor(props) {
@@ -40,32 +41,18 @@ class NewPatientPage extends Component {
     event.preventDefault();
     let self = this;
 
-    if (self.validForm()) {
-      $.ajax({
-        url: 'http://api.dhavalpurohit.com/api/patients',
-        method: 'POST',
-        data: { patient: self.state },
-        success: (data) => {
-          self.setState(self.state);
-          browserHistory.push('/patients');
-        },
-        error: (xhr, status, error) => {
-          alert('Cannot Add a new Record', error);
-        }
-      });
-    }
-    else {
-      alert('Please Fill All The Fields');
-    }
-  }
-
-  validForm() {
-    if (this.state.first_name && this.state.last_name && this.state.age && this.state.dob && this.state.gender && this.state.mobile && this.state.other_info) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    $.ajax({
+      url: 'http://api.dhavalpurohit.com/api/patients',
+      method: 'POST',
+      data: { patient: self.state },
+      success: (data) => {
+        self.setState(self.state);
+        browserHistory.push('/patients');
+      },
+      error: (xhr, status, error) => {
+        alert('Cannot Add a new Record', error);
+      }
+    });
   }
 
   render() {
@@ -82,91 +69,98 @@ class NewPatientPage extends Component {
           </div>
           <div className="panel-body">
 
-            <form className="form-horizontal" onSubmit={this.handleAdd}>
+            <Validation.components.Form className="form-horizontal" onSubmit={this.handleAdd}>
               <fieldset>
                 <div className="form-group">
                   <label className="col-lg-2 control-label">First Name</label>
                   <div className="col-lg-9">
-                    <input type="text"
+                    <Validation.components.Input type="text"
                       className="form-control"
                       name="first_name"
                       placeholder="Enter First Name"
                       value={this.state.first_name}
-                      onChange={this.handleChange} />
+                      onChange={this.handleChange}
+                      validations={['required', 'checkString']} />
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label className="col-lg-2 control-label">Last Name</label>
                   <div className="col-lg-9">
-                    <input type="text"
+                    <Validation.components.Input type="text"
                       className="form-control"
                       name="last_name"
                       placeholder="Enter Last Name"
                       value={this.state.last_name}
-                      onChange={this.handleChange} />
+                      onChange={this.handleChange}
+                      validations={['required', 'checkString']} />
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label className="col-lg-2 control-label">Date Of Birth</label>
                   <div className="col-lg-9">
-                    <input type="date"
+                    <Validation.components.Input type="date"
                       className="form-control"
                       name="dob"
                       placeholder="Enter Date Of Birth"
                       value={this.state.dob}
                       onChange={this.handleChange}
-                      onBlur={this.calculateAge} />
+                      onBlur={this.calculateAge}
+                      validations={['required', 'checkDate']} />
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label className="col-lg-2 control-label">Gender</label>
                   <div className="col-lg-9">
-                    <select className="form-control"
+                    <Validation.components.Select className="form-control"
                       name="gender"
                       value={this.state.gender}
-                      onChange={this.handleChange}>
+                      onChange={this.handleChange}
+                      value=""
+                      validations={['required']}>
                         <option value="">Select Gender</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                    </select>
+                    </Validation.components.Select>
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label className="col-lg-2 control-label">Contact No.</label>
                   <div className="col-lg-9">
-                    <input type="text"
+                    <Validation.components.Input type="text"
                       className="form-control"
                       name="mobile"
                       placeholder="Enter Contact Number"
                       value={this.state.mobile}
-                      onChange={this.handleChange} />
+                      onChange={this.handleChange}
+                      validations={['required', 'checkNumber', 'checkLength']} />
                   </div>
                 </div>
 
                 <div className="form-group">
                   <label className="col-lg-2 control-label">Other Info</label>
                   <div className="col-lg-9">
-                    <textarea className="form-control"
+                    <Validation.components.Textarea className="form-control"
                       rows="3"
                       name="other_info"
                       placeholder="Enter Info"
                       value={this.state.other_info}
-                      onChange={this.handleChange}></textarea>
+                      onChange={this.handleChange}
+                      validations={['required']} ></Validation.components.Textarea>
                   </div>
                 </div>
 
                 <div className="form-group">
                   <div className="text-right col-lg-6">
-                    <button type="submit" className="btn btn-sm btn-success">Submit</button>
+                    <Validation.components.Button type="submit" className="btn btn-sm btn-success">Submit</Validation.components.Button>
                   </div>
                 </div>
 
               </fieldset>
-            </form>
+             </Validation.components.Form>
           </div>
         </div>
     </div>
@@ -184,5 +178,66 @@ NewPatientPage.propTypes = {
   other_info: PropTypes.string,
   router: PropTypes.object.isRequired
 };
+
+Object.assign(Validation.rules, {
+    // Key name maps the rule
+    required: {
+        // Function to validate value
+        // NOTE: value might be a number -> force to string
+        rule: value => {
+            return value.toString().trim();
+        },
+        // Function to return hint
+        // You may use current value to inject it in some way to the hint
+        hint: value => {
+            return <span className='form-error is-visible'>This Field Is Required</span>
+        }
+    },
+
+    checkString: {
+      rule: value => {
+            return  /^[a-zA-Z]+$/.test(value);;
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain only letters(A-Z,a-z)</span>
+      }
+    },
+
+    checkNumber: {
+      rule: value => {
+            return Number.isInteger(Number(value));
+
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain only integer value(0-9)</span>
+      }
+    },
+
+    checkLength: {
+      rule: value => {
+            return value.length === 10;
+
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain only 10 digits</span>
+      }
+    },
+
+    checkDate: {
+      rule: value => {
+            console.log(value);
+            return moment(value).isValid();
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain valid date</span>
+      }
+    }
+
+});
+
 
 export default NewPatientPage;
