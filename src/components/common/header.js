@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar} from 'react-bootstrap';
 
 const header = () => {
   return (
@@ -13,14 +13,14 @@ const header = () => {
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
-            <Nav>
+            <ul className="navbar-nav nav">
               <li>
                   <Link to="/patients" activeClassName="active">Patients</Link>
               </li>
               <li>
                 <Link to="/patient/new" activeClassName="active">New Patient</Link>
               </li>
-            </Nav>
+            </ul>
           </Navbar.Collapse>
       </Navbar>
 
