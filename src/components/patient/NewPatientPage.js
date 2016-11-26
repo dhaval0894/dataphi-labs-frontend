@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 import $ from 'jquery';
 import { browserHistory } from 'react-router';
-import Validation from 'react-validation';
+import Validation from './../common/validation';
 
 class NewPatientPage extends Component {
   constructor(props) {
@@ -33,7 +33,6 @@ class NewPatientPage extends Component {
   handleChange(event) {
     let input_name = event.target.name;
     let value = event.target.value;
-    console.log(value);
     this.setState({ [input_name] : value });
   }
 
@@ -107,7 +106,7 @@ class NewPatientPage extends Component {
                       value={this.state.dob}
                       onChange={this.handleChange}
                       onBlur={this.calculateAge}
-                      validations={['required']} />
+                      validations={['required', 'checkDate']} />
                   </div>
                 </div>
 
@@ -178,55 +177,5 @@ NewPatientPage.propTypes = {
   other_info: PropTypes.string,
   router: PropTypes.object.isRequired
 };
-
-Object.assign(Validation.rules, {
-    // Key name maps the rule
-    required: {
-        // Function to validate value
-        // NOTE: value might be a number -> force to string
-        rule: value => {
-            return value.toString().trim();
-        },
-        // Function to return hint
-        // You may use current value to inject it in some way to the hint
-        hint: value => {
-            return <span className='form-error is-visible'>This Field Is Required</span>
-        }
-    },
-
-    checkString: {
-      rule: value => {
-            return  /^[a-zA-Z]+$/.test(value);;
-      },
-
-      hint: value => {
-          return <span className='form-error is-visible'>Field should contain only alphabets(A-Z,a-z)</span>
-      }
-    },
-
-    checkNumber: {
-      rule: value => {
-            return Number.isInteger(Number(value));
-
-      },
-
-      hint: value => {
-          return <span className='form-error is-visible'>Field should contain only integer value(0-9)</span>
-      }
-    },
-
-    checkLength: {
-      rule: value => {
-            return value.length === 10;
-
-      },
-
-      hint: value => {
-          return <span className='form-error is-visible'>Field should contain exactly 10 digits</span>
-      }
-    }
-
-});
-
 
 export default NewPatientPage;

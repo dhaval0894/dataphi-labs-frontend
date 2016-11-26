@@ -1,6 +1,5 @@
 import React from 'react';
-import { rules, Form, Input, Select, Textarea, Button } from 'react-validation/lib/build/validation.rc';
-import validator from 'validator';
+import Validation from 'react-validation';
 
 Object.assign(Validation.rules, {
     // Key name maps the rule
@@ -13,18 +12,63 @@ Object.assign(Validation.rules, {
         // Function to return hint
         // You may use current value to inject it in some way to the hint
         hint: value => {
-            return <span className='form-error is-visible'>Required</span>
+            return <span className='form-error is-visible'>This Field Is Required</span>
         }
     },
-    // Define API rule to show hint after API error response
-    api: {
-        // We don't need the rule here because we will call the 'showError' method by hand on API error
-        hint: value => (
-            <button
-                className="form-error is-visible"
-            >
-                API Error on "{value}" value. Focus to hide.
-            </button>
-        )
-    }
+
+    checkString: {
+      rule: value => {
+            return  /^[a-zA-Z]+$/.test(value);
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain only alphabets(A-Z,a-z)</span>
+      }
+    },
+
+    checkNumber: {
+      rule: value => {
+            return Number.isInteger(Number(value));
+
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain only integer value(0-9)</span>
+      }
+    },
+
+    checkLength: {
+      rule: value => {
+            return value.length === 10;
+
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain exactly 10 digits</span>
+      }
+    },
+
+    checkDate: {
+      rule: value => {
+            let dob = new Date(value);
+            let today = new Date();
+            if (dob === 'Invalid Date') {
+              return false;
+            }
+            else if (dob > today ) {
+              return false;
+            }
+            else {
+              return true;
+            }
+
+      },
+
+      hint: value => {
+          return <span className='form-error is-visible'>Field should contain a valid date of birth</span>
+      }
+    },
+
 });
+
+export default Validation;
